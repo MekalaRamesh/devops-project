@@ -1,0 +1,23 @@
+- hosts: docker_host
+  become: yes
+  tasks:
+    - name: Pull latest changes from the repository
+      ansible.builtin.git:
+        repo: 'https://github.com/MekalaRamesh/devops-project.git'
+        dest: /
+        version: main
+
+    - name: Bring down the existing Docker Compose services
+      ansible.builtin.command:
+        cmd: "docker-compose down"
+        chdir: /
+
+    - name: Pull the latest Docker images
+      ansible.builtin.command:
+        cmd: "docker-compose pull"
+        chdir: /
+
+    - name: Rebuild and restart services with Docker Compose
+      ansible.builtin.command:
+        cmd: "docker-compose up -d --build"
+        chdir: /

@@ -1,0 +1,35 @@
+name: Deploy to EC2 Using Ansible
+
+# Trigger: Customize to your branch
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: Deploy app to EC2 with Ansible
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      # Step 2: Create the SSH private key file from GitHub Secrets
+      - name: Create SSH key file
+        run: |
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > /tmp/ansible_ec2_key.pem
+          chmod 600 /tmp/ansible_ec2_key.pem  # Set correct permissions for SSH key
+
+      # Step 3: Install Ansible (on the GitHub runner)
+      - name: Install Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+
+      # Step 4: Run the Ansible playbook for deployment
+      - name: Run Ansible playbook to deploy
+        run: |
+          ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+        env:
+          ANSIBLE_PRIVATE_KEY_FILE: /tmp/ansible_ec2_key.pem  # Set env variable for key location

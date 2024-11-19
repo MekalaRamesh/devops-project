@@ -30,6 +30,6 @@ jobs:
       # Step 4: Run the Ansible playbook for deployment
       - name: Run Ansible playbook to deploy
         run: |
-          ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+          ansible-playbook -i /ansible/inventory.ini /ansible/playbook.yml
         env:
           ANSIBLE_PRIVATE_KEY_FILE: /tmp/ansible_ec2_key.pem  # Set env variable for key location

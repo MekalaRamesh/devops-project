@@ -5,7 +5,7 @@
       ansible.builtin.git:
         repo: 'https://github.com/MekalaRamesh/devops-project.git'
         dest: /
-        version: main
+        version: master
 
     - name: Bring down the existing Docker Compose services
       ansible.builtin.command:

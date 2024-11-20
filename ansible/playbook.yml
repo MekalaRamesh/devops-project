@@ -4,20 +4,14 @@
     - name: Pull latest changes from the repository
       ansible.builtin.git:
         repo: 'https://github.com/MekalaRamesh/devops-project.git'
-        dest: /
+        dest: /home/ubuntu/ramesh
         version: master
-
-    - name: Bring down the existing Docker Compose services
-      ansible.builtin.command:
-        cmd: "docker-compose down"
-        chdir: /
 
     - name: Pull the latest Docker images
       ansible.builtin.command:
         cmd: "docker-compose pull"
-        chdir: /
-
+        chdir: /home/ubuntu/ramesh
     - name: Rebuild and restart services with Docker Compose
       ansible.builtin.command:
         cmd: "docker-compose up -d --build"
-        chdir: /
+        chdir:  /home/ubuntu/ramesh
